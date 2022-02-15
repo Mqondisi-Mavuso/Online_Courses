@@ -1,3 +1,5 @@
+# 16 september (100 days python bootcamp)
+# The hangman game
 import random
 import hangman_art as art
 import hangman_words as words
