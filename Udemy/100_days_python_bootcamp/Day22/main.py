@@ -26,7 +26,7 @@ game_is_on = True
 while game_is_on:
     time.sleep(0.00001)
     screen.update()
-    ball.move_right()
+    ball.move()
 
     # for bouncing off the top wall
     if ball.ycor() < -280 or ball.ycor() > 280:
@@ -36,11 +36,12 @@ while game_is_on:
     if ball.distance(l_paddle) < 50 and ball.xcor() < -320 or ball.distance(r_paddle) < 50 and ball.xcor() > 320:
         ball.bounce_x()
 
-    if ball.xcor() < l_paddle.xcor() or ball.xcor() > r_paddle.xcor():
-        ball.goto(0, 0)
-        if ball.xcor() < l_paddle.xcor():
-            ball.move_right()
-        elif ball.xcor() > r_paddle.xcor():
-            ball.move_right()
+    #for detecting if the ball passed the right paddle
+    if ball.xcor() > 380:
+        ball.reset_position()
+
+    # detecting when the ball has passed the left paddle
+    if ball.xcor() < -380:
+        ball.reset_position()
 
 screen.exitonclick()
