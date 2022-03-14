@@ -2,6 +2,7 @@ from turtle import Turtle
 ALIGNMENT = "center"
 FONT = ('Arial', 16, 'normal')
 
+
 class Score(Turtle):
     def __init__(self):
         """
@@ -9,11 +10,12 @@ class Score(Turtle):
         """
         super().__init__()
         self.score = 0
-        self.high_score = 0
+        with open("data.txt") as FILE:
+            self.high_score = int(FILE.read())
         self.penup()
         self.color("white")
         self.hideturtle()
-        self.goto(0, 280)
+        self.goto(0, 270)
         self.update_score_board()
 
     def update_score_board(self):
@@ -27,14 +29,13 @@ class Score(Turtle):
     def reset(self):
         if self.score > self.high_score:
             self.high_score = self.score
+            # opening the file (relative file path) and writing the new score onto it
+            # with open("../../../../data.txt", mode="w") as FILE:
+            #     pass
+            with open("data.txt", mode="w") as FILE:
+                FILE.write(f"{self.high_score}")
         self.score = 0
-    # def game_over(self):
-    #     """
-    #     This turtle will display the 'Game Over' at the centre of the screen when called
-    #     :return:
-    #     """
-    #     self.goto(0,0)
-    #     self.write(arg=f"Game Over", move=False, align=ALIGNMENT, font=FONT)
+        self.update_score_board()
 
     def increase_score(self):
         """
@@ -42,5 +43,6 @@ class Score(Turtle):
         :return:
         """
         self.score += 1
-        self.clear()
         self.update_score_board()
+
+
