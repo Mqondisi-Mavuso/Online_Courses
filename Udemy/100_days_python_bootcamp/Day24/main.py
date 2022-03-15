@@ -21,7 +21,7 @@ while game_is_on:
     time.sleep(0.1)
 
     snake.move()
-    screen.listen()
+    screen.listen() # For listening to the keyboard keys
     screen.onkey(snake.up, "Up")
     screen.onkey(snake.down, "Down")
     screen.onkey(snake.left, "Left")
