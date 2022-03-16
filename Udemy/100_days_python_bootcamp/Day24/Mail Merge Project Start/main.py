@@ -1,19 +1,19 @@
-#TODO: Create a letter using starting_letter.txt 
-#for each name in invited_names.txt
-with open("input/names/invited_names.txt", mode="r") as file:
-    name_list = file.read()
+#day 24 of 100 days of python
+# reading to and from files
 
+PLACEHOLDER = "[name]"
+
+#opening the file as read only using relative path
+with open("input/names/invited_names.txt") as file:
+    name_list = file.readlines()
+
+#open the file starting_letter and store it's content on the letters variable
 with open("input/letters/starting_letter.txt") as letter:
     letters = letter.read()
     for name in name_list:
-        stripped_name = name.strip()
-        new_letter = letters.replace("[name]", stripped_name)
-        print(new_letter)
-#Replace the [name] placeholder with the actual name.
+        stripped_name = name.strip() # removing the new lines at the end of each word
+        new_letter = letters.replace(PLACEHOLDER, stripped_name)
 
-
-#Save the letters in the folder "ReadyToSend".
-    
-#Hint1: This method will help you: https://www.w3schools.com/python/ref_file_readlines.asp
-    #Hint2: This method will also help you: https://www.w3schools.com/python/ref_string_replace.asp
-        #Hint3: THis method will help you: https://www.w3schools.com/python/ref_string_strip.asp
+        #write each letter on a new text file and save it on the output folder
+        with open(f"output/ReadyToSend/letter_to_{stripped_name}.txt", mode="w") as final_letter:
+            final_letter.write(new_letter)
