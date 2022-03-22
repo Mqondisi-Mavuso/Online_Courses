@@ -16,7 +16,7 @@ data = pandas.read_csv("50_states.csv")
 mqo = turtle.Turtle()
 guessed_states = []
 states_to_learn = []
-all_states = data.state.tolist()
+all_states = data.state.tolist()  # This converts the dataframe to a python list
 
 while len(guessed_states) < 50:
     if answer_state == "Exit":   # adding all the states not mentioned in a states to learn list
