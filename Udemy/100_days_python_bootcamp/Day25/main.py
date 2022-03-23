@@ -53,6 +53,7 @@ squirrel_dict = {
 
 final_data = pandas.DataFrame(squirrel_dict)
 final_data.to_csv("squirrel_color.csv")
+
 #squirrel_data_frame = squirrel_dict.Dataframe()
 
 # print(round(data["temp"].mean(), 2))    #displaying the average temperature
