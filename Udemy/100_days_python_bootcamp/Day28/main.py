@@ -62,4 +62,4 @@ start_button.grid(row=2, column=0)
 
 reset_button = Button(text="Reset", command=start_timer, highlightthickness=0)     # listens to click from user
 reset_button.grid(row=2, column=2)
-window.mainloop()
+window.mainloop()                                                                   # Keeps the window open until we click exit
