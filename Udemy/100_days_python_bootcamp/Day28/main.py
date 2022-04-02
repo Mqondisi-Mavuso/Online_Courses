@@ -56,7 +56,6 @@ check_box.config(bg=YELLOW)
 check_box.config(fg=GREEN)
 check_box.grid(row=3, column=1)                # This allows the label to be shown on the screen
 
-
 start_button = Button(text="Start", command=start_timer, highlightthickness=0)     # listens to click from user, click()
 start_button.grid(row=2, column=0)
 
