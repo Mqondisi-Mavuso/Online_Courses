@@ -9,6 +9,7 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
+reps = 0
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
@@ -16,7 +17,21 @@ LONG_BREAK_MIN = 20
 
 
 def start_timer():
-    count_down(1 * 60)
+    global reps
+    work_sec = WORK_MIN * 60
+    short_break = SHORT_BREAK_MIN * 60
+    long_break = LONG_BREAK_MIN * 60
+    reps += 1
+    if reps % 2 == 0:                       #meaning it is odd
+        count_down(short_break)
+
+    elif reps % 8 == 0:
+        count_down(long_break)
+
+    else:
+        count_down(work_sec)
+
+
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
 
@@ -30,7 +45,10 @@ def count_down(count):
 
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")           # for changing the count on GUI
     if count > 0:
-        window.after(1000, count_down, count - 1)       # Count down every second
+        window.after(1, count_down, count - 1)       # Count down every second
+
+    else:
+        start_timer()
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -56,9 +74,11 @@ check_box.config(bg=YELLOW)
 check_box.config(fg=GREEN)
 check_box.grid(row=3, column=1)                # This allows the label to be shown on the screen
 
+
 start_button = Button(text="Start", command=start_timer, highlightthickness=0)     # listens to click from user, click()
 start_button.grid(row=2, column=0)
 
 reset_button = Button(text="Reset", command=start_timer, highlightthickness=0)     # listens to click from user
 reset_button.grid(row=2, column=2)
-window.mainloop()                                                                   # Keeps the window open until we click exit
+
+window.mainloop()
