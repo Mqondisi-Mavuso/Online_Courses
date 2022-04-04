@@ -10,8 +10,19 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer_reset = None
+check_box_maker = ""
 
-# ---------------------------- TIMER RESET ------------------------------- # 
+# ---------------------------- TIMER RESET ------------------------------- #
+def reset_timer():
+    global reps, timer_reset
+    window.after_cancel(timer_reset)
+    timer.config(text="Timer")
+    canvas.itemconfig(timer_text, text="00:00")
+    check_box_maker = ""
+    reps = 0
+    check_box.config(text=check_box_maker)
+
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
@@ -22,20 +33,24 @@ def start_timer():
     short_break = SHORT_BREAK_MIN * 60
     long_break = LONG_BREAK_MIN * 60
     reps += 1
-    if reps % 2 == 0:                       #meaning it is odd
+    if reps % 2 == 0:                       # meaning it is odd
         count_down(short_break)
+        timer.config(text="Break", fg=PINK)
 
     elif reps % 8 == 0:
         count_down(long_break)
+        timer.config(text="Break", fg=RED)
 
     else:
         count_down(work_sec)
+        timer.config(text="Work", fg=GREEN)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
 
 def count_down(count):
+    global reps
     count_min = math.floor(count / 60)
     count_sec = count % 60
     if count_sec == 0:
@@ -45,10 +60,17 @@ def count_down(count):
 
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")           # for changing the count on GUI
     if count > 0:
-        window.after(1, count_down, count - 1)       # Count down every second
+        global timer_reset
+        timer_reset = window.after(1, count_down, count - 1)       # Count down every second
 
     else:
         start_timer()
+        if reps % 2 == 0:                           # for every two reps there should be one marker
+            global check_box_maker
+            ticks = int(reps/2)                     # here we are checking how many ticks should be printed
+            for _ in range(ticks):                  # since we can't use float in range(), ticks had to be type casting
+                check_box_maker += "✔"
+            check_box.config(text=check_box_maker)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -63,13 +85,12 @@ canvas.create_image(100, 112, image=tomato_img)
 timer_text = canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
 canvas.grid(row=1, column=1)
 
-
 timer = Label(text="Timer", font=("Times New Roman", 24, "bold"))
 timer.config(bg=YELLOW)
-timer.config(fg=GREEN)
-timer.grid(row=0, column=1)                # This allows the label to be shown on the screen
+timer.grid(row=0, column=1)
 
-check_box = Label(text="✔", font=("Times New Roman", 24, "bold"))
+
+check_box = Label(font=("Times New Roman", 24, "bold"))
 check_box.config(bg=YELLOW)
 check_box.config(fg=GREEN)
 check_box.grid(row=3, column=1)                # This allows the label to be shown on the screen
@@ -78,7 +99,8 @@ check_box.grid(row=3, column=1)                # This allows the label to be sho
 start_button = Button(text="Start", command=start_timer, highlightthickness=0)     # listens to click from user, click()
 start_button.grid(row=2, column=0)
 
-reset_button = Button(text="Reset", command=start_timer, highlightthickness=0)     # listens to click from user
+reset_button = Button(text="Reset", command=reset_timer, highlightthickness=0)     # listens to click from user
 reset_button.grid(row=2, column=2)
+
 
 window.mainloop()
