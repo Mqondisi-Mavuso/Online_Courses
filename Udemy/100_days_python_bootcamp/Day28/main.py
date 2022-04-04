@@ -1,3 +1,6 @@
+# day 28 of 100 days of python bootcamp
+# Pomodoro app
+
 from tkinter import *
 import math
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -11,17 +14,17 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
 timer_reset = None
-check_box_maker = ""
+
 
 # ---------------------------- TIMER RESET ------------------------------- #
 def reset_timer():
-    global reps, timer_reset
+    global reps
+    global timer_reset
     window.after_cancel(timer_reset)
-    timer.config(text="Timer")
+    title_label.config(text="Timer")
     canvas.itemconfig(timer_text, text="00:00")
-    check_box_maker = ""
     reps = 0
-    check_box.config(text=check_box_maker)
+    check_box.config(text="")
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
@@ -35,15 +38,15 @@ def start_timer():
     reps += 1
     if reps % 2 == 0:                       # meaning it is odd
         count_down(short_break)
-        timer.config(text="Break", fg=PINK)
+        title_label.config(text="Break", fg=PINK)
 
     elif reps % 8 == 0:
         count_down(long_break)
-        timer.config(text="Break", fg=RED)
+        title_label.config(text="Break", fg=RED)
 
     else:
         count_down(work_sec)
-        timer.config(text="Work", fg=GREEN)
+        title_label.config(text="Work", fg=GREEN)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
@@ -54,19 +57,19 @@ def count_down(count):
     count_min = math.floor(count / 60)
     count_sec = count % 60
     if count_sec == 0:
-        count_sec = "00"
+        count_sec = "00"                                                    # dynamic typing
     elif count_sec < 10 and count_sec % 10 != 0:
         count_sec = f"0{count_sec}"
 
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")           # for changing the count on GUI
     if count > 0:
         global timer_reset
-        timer_reset = window.after(1, count_down, count - 1)       # Count down every second
+        timer_reset = window.after(1000, count_down, count - 1)       # Count down every second
 
-    else:
+    else:                                           # This is triggered whenever the count has reached zero
         start_timer()
         if reps % 2 == 0:                           # for every two reps there should be one marker
-            global check_box_maker
+            check_box_maker = ""
             ticks = int(reps/2)                     # here we are checking how many ticks should be printed
             for _ in range(ticks):                  # since we can't use float in range(), ticks had to be type casting
                 check_box_maker += "✔"
@@ -85,9 +88,9 @@ canvas.create_image(100, 112, image=tomato_img)
 timer_text = canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
 canvas.grid(row=1, column=1)
 
-timer = Label(text="Timer", font=("Times New Roman", 24, "bold"))
-timer.config(bg=YELLOW)
-timer.grid(row=0, column=1)
+title_label = Label(text="Timer", font=("Times New Roman", 24, "bold"))
+title_label.config(bg=YELLOW)
+title_label.grid(row=0, column=1)
 
 
 check_box = Label(font=("Times New Roman", 24, "bold"))
