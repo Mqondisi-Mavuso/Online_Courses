@@ -10,5 +10,6 @@ number_of_people = int(input("How many people to split the bill? "))
 #calculte the individual bill and round the answer to two decimal places using the round function
 individual_bill = round((bill/number_of_people) +(bill/number_of_people)* (tip/100) , 2)
 
+
 # using f-string and the print function, output the individual bill
 print(f"Each person should pay: ${individual_bill}")
