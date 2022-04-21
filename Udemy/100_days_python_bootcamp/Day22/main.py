@@ -13,6 +13,7 @@ screen.tracer(0)            # This is for stopping any animation until further n
 r_paddle = Paddle((290, 0))
 l_paddle = Paddle((-300, 0))
 
+# constructing the ball
 ball = Ball()
 score_board = Scoreboard()
 
