@@ -1,6 +1,7 @@
 # Week 7 assignment 5.2
 # prompt the user for indefinite numbers and print the largest and smallest
 
+
 smallest = None
 largest = None
 
