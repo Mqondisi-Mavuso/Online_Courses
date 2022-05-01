@@ -94,7 +94,6 @@ title_label = Label(text="Timer", font=("Times New Roman", 24, "bold"))
 title_label.config(bg=YELLOW)
 title_label.grid(row=0, column=1)
 
-
 check_box = Label(font=("Times New Roman", 24, "bold"))
 check_box.config(bg=YELLOW)
 check_box.config(fg=GREEN)
