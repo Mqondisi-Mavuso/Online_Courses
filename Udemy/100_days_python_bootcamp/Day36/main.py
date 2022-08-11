@@ -1,7 +1,7 @@
 import requests
 import itertools
 
-STOCK = "TSLA"
+STOCK = "TSLA"                  # I can make this any company 
 COMPANY_NAME = "Tesla Inc"
 
 api_key_alpha_vantage= "7Z4L3XBAPF5T4ABG"
