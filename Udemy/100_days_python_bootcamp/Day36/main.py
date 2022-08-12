@@ -1,15 +1,18 @@
 import requests
 import itertools
+import time
 
-STOCK = "TSLA"                  # I can make this any company 
-COMPANY_NAME = "Tesla Inc"
+STOCK = "Amway"
+COMPANY_NAME = "Amway"
 
 api_key_alpha_vantage= "7Z4L3XBAPF5T4ABG"
 api_key_news = "627e693128694d3c9c765bfd939c788d"
 
 alpha_parameters = {
-    "function": "TIME_SERIES_DAILY",
-    "symbol": "IBM",
+    "function": "FX_INTRADAY",
+    "from_symbol": "USD",
+    "to_symbol": "TWD",
+    "interval": "60min",
     "apikey": api_key_alpha_vantage
 }
 
@@ -17,15 +20,18 @@ alpha_parameters = {
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 response = requests.get(url="https://www.alphavantage.co/query", params=alpha_parameters)
 alpha_data = response.json()
-first_two_days = dict(itertools.islice(alpha_data["Time Series (Daily)"].items(),2))
-yesterday_close_value = float(first_two_days["2022-08-09"]["4. close"])
-previousday_close_value = float(first_two_days["2022-08-08"]["4. close"])
 
-percentage_diff = round(((yesterday_close_value - previousday_close_value)/previousday_close_value) * 100, 1)
 
-print(f"Yesterday's close value market: {yesterday_close_value}")
-print(f"Previous day closing market value: {previousday_close_value}")
+# first_two_days = dict(itertools.islice(alpha_data["Time Series FX (60min)"].items(),2))
+yesterday_midday_value = float(alpha_data["Time Series FX (60min)"]["2022-08-11 12:00:00"]["4. close"])
+previousday_midday_value = float(alpha_data["Time Series FX (60min)"]["2022-08-10 12:00:00"]["4. close"])
 
+percentage_diff = round(((yesterday_midday_value - previousday_midday_value)/previousday_midday_value) * 100, 1)
+
+print(f"Yesterday's midday value market: {yesterday_midday_value}")
+print(f"Previous day mid\day market value: {previousday_midday_value}")
+
+print(percentage_diff)
 ## STEP 2: Use https://newsapi.org
 # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME.
 
