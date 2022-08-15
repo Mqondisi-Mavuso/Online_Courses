@@ -1,68 +1,48 @@
+# Day 35 of 100
+# Rain notification app
+
+import os
 import requests
-from newsapi import NewsApiClient
-import itertools
-import time
+from twilio.rest import Client
 
-STOCK = "Amway"
-COMPANY_NAME = "Amway"
+LATITUDE = "23.901498"
+LONGITUDE = "121.545543"
 
-api_key_alpha_vantage= "7Z4L3XBAPF5T4ABG"
-api_key_news = "627e693128694d3c9c765bfd939c788d"
+twilio_api_key = "1dfdbce83d8a64bd5cff74a68cd11421"
+twilio_account_sid = "ACbcf14bb937f2aaed3e59cf43cca9340d"
+twilio_auth_token = "65cbcad85db4b987c28b2e4d693ccf09"
+twilio_number = "+19302122954"
+twilio_recovery_code = "lTGyyU2nftGITYcFiSV9xFv8ESYV8-ClDGKhoIK_"
 
-alpha_parameters = {
-    "function": "TIME_SERIES_DAILY",
-    "symbol": "AAPL",
-    "interval": "60min",
-    "apikey": api_key_alpha_vantage
+twilio_parameters = {
+    "lat": LATITUDE,
+    "lon": LONGITUDE,
+    "appid": api_key,
+    "exclude": "current,minutely,daily"
 }
 
-news_parameters = {
-    "q": "apple",
-    "from": "2022-08-11",
-    "to": "2022-08-12",
-    "sortBy": "popularity",
-    "apiKey": api_key_news
-}
+response = requests.get(url="https://api.openweathermap.org/data/2.5/onecall", params=parameters)
+response.raise_for_status()                             # for raising an exception just in case we get wrong http code
+weather_data = response.json()
 
-## STEP 1: Use https://www.alphavantage.co
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
-response = requests.get(url="https://www.alphavantage.co/query", params=alpha_parameters)
-alpha_data = response.json()
+twelve_h_list = weather_data["hourly"][0:12]
+weather_id_list = []
+for i in range(0, 12):
+    weather_id_list.append(twelve_h_list[i]["weather"][0]["id"])        # getting the weather id for the next 12 hours
 
-print(alpha_data)
-# first_two_days = dict(itertools.islice(alpha_data["Time Series FX (60min)"].items(),2))
-yesterday_close_value = float(alpha_data["Time Series (Daily)"]["2022-08-12"]["4. close"])
-previousday_close_value = float(alpha_data["Time Series (Daily)"]["2022-08-11"]["4. close"])
+will_rain = False
+for id in weather_id_list:
+    if id < 700:
+        will_rain = True
 
-percentage_diff = round(((yesterday_close_value - previousday_close_value)/previousday_close_value) * 100, 1)
+if will_rain:
+    client = Client(account_sid, auth_token)
 
-print(f"Yesterday's midday value market: {yesterday_close_value}")
-print(f"Previous day mid\day market value: {previousday_close_value}")
-#
-# print(percentage_diff)
-## STEP 2: Use https://newsapi.org
-# Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME.
+    message = client.messages \
+        .create(
+        body="Mqondisi, It is going to rain today remember to bring an umbrella ☂️!",
+        from_=twilio_number,
+        to='+8860988030913'
+    )
 
-
-if -2.0 > percentage_diff or percentage_diff > 2.0:
-    news_response = requests.get(url="https://newsapi.org/v2/everything", params=news_parameters)
-    news_data = news_response.json()
-
-    print(news_data)
-else:
-    pass
-
-## STEP 3: Use https://www.twilio.com
-# Send a seperate message with the percentage change and each article's title and description to your phone number. 
-
-#Optional: Format the SMS message like this: 
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
-
+    print(message.sid)
