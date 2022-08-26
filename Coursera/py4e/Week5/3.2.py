@@ -3,6 +3,7 @@ hrs = input("Enter Hours:")
 h = float(hrs)
 rat = input("Please enter the rate: ")
 rate = float(rat)
+
 overtime = h - 40
 
 #calculate overtime pay for workers who worked more that 40 hours
