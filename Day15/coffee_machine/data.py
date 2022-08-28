@@ -14,6 +14,7 @@ MENU = {
         },
         "cost": 2.5,
     },
+    
     "cappuccino": {
         "ingredients": {
             "water": 250,
