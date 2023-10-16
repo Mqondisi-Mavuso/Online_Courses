@@ -23,7 +23,7 @@ def total_score(p_cards):
   return sum(p_cards)
 
 def pick_card():
-  card_position = randint(1, 12)
+  card_position=randint(1, 12)
   chosen_card = cards[card_position]
   return chosen_card
 
