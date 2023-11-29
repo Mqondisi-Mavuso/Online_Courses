@@ -17,7 +17,7 @@ MENU = {
     
     "cappuccino": {
         "ingredients": {
-            "water": 250,
+            "water": 251,
             "milk": 100,
             "coffee": 24,
         },
