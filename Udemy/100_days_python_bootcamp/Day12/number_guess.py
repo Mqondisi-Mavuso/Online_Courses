@@ -24,7 +24,7 @@ elif level == 'hard':
 
 #this will run until the user is out of turns
 while turns:
-  guess = int(input("Guess the number: "))
+  guess = int(input("Guess the number : "))
   check(guess, secrete_number)
   turns -= 1
   if turns:
