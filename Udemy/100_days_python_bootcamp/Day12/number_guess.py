@@ -5,7 +5,7 @@ from art import logo
 
 print(logo)
 print("Welcome the Guess The Number Game! \nI am thinking of a number between 1 and 100...")
-level = input("Choose the difficulty level: 'easy' or 'hard'? ").lower()
+level = input("Choose the difficulty level: 'easy level' or 'hard'? ").lower()
 secrete_number = randint(1, 100 + 1)
 
 def check(guessed_int, unk_number):
