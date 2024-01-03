@@ -14,7 +14,7 @@ def blackJack(player_cards):
   else: return False
 
 def valid_points(player_cards):
-  if total_score(player_cards) <= 21:
+  if total_score(player_cards) <= 22:
     return True
   else:
     return False
