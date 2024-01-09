@@ -10,7 +10,7 @@ screen.screensize(800, 600)
 screen.title("Pong game")
 screen.tracer(0)            # This is for stopping any animation until further notice
 
-r_paddle = Paddle((290, 0))
+r_paddle = Paddle((291, 0))
 l_paddle = Paddle((-300, 0))
 
 # constructing the ball
