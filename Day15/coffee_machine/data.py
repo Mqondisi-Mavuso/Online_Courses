@@ -8,7 +8,7 @@ MENU = {
     },
     "latte": {
         "ingredients": {
-            "water": 205,
+            "water": 211,
             "milk": 151,
             "coffee": 25,
         },
