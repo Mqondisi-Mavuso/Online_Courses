@@ -17,7 +17,7 @@ stages = art.h_stages()
 #print(f'Pssst, the solution is {chosen_word}.')
 
 # The player will get six lives each time they guess wrong the lose 1
-lives = 6
+lives = 7
 # This is the list we'll use to display the letters of the mystry word as the user tries to guess the word
 display = []
 for i in range(len(chosen_word)):
