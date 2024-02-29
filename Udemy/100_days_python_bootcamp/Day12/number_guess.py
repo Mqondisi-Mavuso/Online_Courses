@@ -18,7 +18,7 @@ def check(guessed_int, unk_number):
     print(f"Correct Guess, the secrete number was {unk_number}")
 
 if level == 'easy':
-  turns = 11
+  turns = 10
 elif level == 'hard':
   turns = 5
 
