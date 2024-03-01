@@ -5,7 +5,7 @@ from turtle import Turtle, Screen
 from random import randint
 
 colors = ["lime", "pink", "magenta", "orange", "yellow", "grey"]
-y_coordinates = [-100, -50, 0, 50, 100, 150]
+y_coordinates = [-100, -50, 0, 50, 100, 151]
 screen = Screen()
 screen.setup(width = 500, height=400)
 user_bet = screen.textinput(title = "Make your bet" , prompt = f"Which turtle is going to win? ({colors}): ")
